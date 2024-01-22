@@ -116,6 +116,124 @@
 				],
 				"name": "WithdrawRequested",
 				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "accountId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "withdrawlId",
+						"type": "uint256"
+					}
+				],
+				"name": "approveWithdrawl",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address[]",
+						"name": "otherOwners",
+						"type": "address[]"
+					}
+				],
+				"name": "createAccount",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "accountId",
+						"type": "uint256"
+					}
+				],
+				"name": "deposit",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "accountId",
+						"type": "uint256"
+					}
+				],
+				"name": "getBalance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "accountId",
+						"type": "uint256"
+					}
+				],
+				"name": "getOwners",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "accountId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "ammount",
+						"type": "uint256"
+					}
+				],
+				"name": "requestWithdrawl",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "accountId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "withdrawlId",
+						"type": "uint256"
+					}
+				],
+				"name": "withdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -146,11 +264,11 @@
 	},
 	"sources": {
 		"contracts/BankAccount.sol": {
-			"keccak256": "0x97d74cd5f3239b5cbf59812db2a16906e2aef19d405bba36649611ac3e255cf5",
+			"keccak256": "0xfc4cff028b47c27b1d120b81e6bc0f42ad83fd53ae72d32383facda28bbf8b75",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://56be64dc738a5c306f75f9921ddd0b36972e1da01c64c9a9e390d2a615cd3071",
-				"dweb:/ipfs/QmdTrVdkiyRURj8gMeFrFq4TD5ANniG4Mw7LJbd7mgHPyi"
+				"bzz-raw://e1ab41d85c84ac76b558ffd553d321fee60395b00a971d58a26d45ba532830c7",
+				"dweb:/ipfs/QmZ9eqhzEpAcfCEbYi1QEj1C96tEZcoa1hSgD2Wojtqbu3"
 			]
 		}
 	},
