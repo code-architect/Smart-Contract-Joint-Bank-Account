@@ -51,13 +51,37 @@ contract BankAccount {
     uint nextAccountId;
     uint nextWithdrawId;
 
-    //==========================================================================================================================
+    //=================================================== Modefiers ===========================================================
+    modifier accountOwner(uint accountId)
+    {
+        bool isOwner;
+        // check if the account id matches with any of the owner of the given account
+        for(uint idx; idx < accounts[accountId].owners.length; idx++)
+        {
+            if(accounts[accountId].owners[idx] == msg.sender)
+            {
+                isOwner = true;
+                break;
+            }
+        }
+        require(isOwner, "You are not an owner of this account");
+        _;
+    }
+
+    modifier validOwners(address[] calldata owners)
+    {
+        // check numbers of owners are valid
+        _;
+    }
+    
+    //=========================================================================================================================
     /*
     User can have multiple accounts, so need to specify account id
     */    
-    function deposit(uint accountId) external payable 
+    function deposit(uint accountId) external payable accountOwner(accountId)
     {
-
+        // add to the existing balance
+        accounts[accountId].balance += msg.value;
     }
 
 
@@ -67,7 +91,33 @@ contract BankAccount {
     */
     function createAccount(address[] calldata otherOwners) external
     {
+        // make sure each owner is unique
+        // one owner is creating an array which contains all of the owners, and one of the owners will be the creater himself. SO rthats why +1
+        address[] memory owners = new address[](otherOwners.length + 1);        
+        owners[otherOwners.length] = msg.sender;
 
+        // get the id for my account
+        uint id = nextAccountId;
+        // go through every owner to make sure they do not have more then three account
+        for(uint idx; idx < owners.length; idx++)
+        {
+            // this line is to exclude our selfs from copying, because we added ourself previously
+            if(idx < owners.length - 1)
+            {
+                owners[idx] = otherOwners[idx];
+            }
+            // we are going to go to user accounts, which is gonna contain an array, which specifies all of the accounts this use is owner of
+            // we are going to check if they are owner of three max accounts
+            // and this is valid to do because unwanted owners will be removed at the beggening we can proceed with valid owners
+            if(userAccount[owners[idx]].length > 2)
+            {
+                revert("Each user can have a max 3 accounts");
+            }
+            userAccount[owners[idx]].push(id);
+        }
+        accounts[id].owners = owners;
+        nextAccountId++;
+        emit AccountCreated(owners, id, block.timestamp);
     }
 
 

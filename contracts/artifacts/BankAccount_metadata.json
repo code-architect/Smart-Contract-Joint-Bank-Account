@@ -162,6 +162,43 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "getAccount",
+				"outputs": [
+					{
+						"internalType": "uint256[]",
+						"name": "",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "accountId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "withdrawlId",
+						"type": "uint256"
+					}
+				],
+				"name": "getApprovals",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -264,11 +301,11 @@
 	},
 	"sources": {
 		"contracts/BankAccount.sol": {
-			"keccak256": "0xfc4cff028b47c27b1d120b81e6bc0f42ad83fd53ae72d32383facda28bbf8b75",
+			"keccak256": "0x08fd5d682113ee7e318991f1cfea279b926941b25a96104cac7550c29114c68b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://e1ab41d85c84ac76b558ffd553d321fee60395b00a971d58a26d45ba532830c7",
-				"dweb:/ipfs/QmZ9eqhzEpAcfCEbYi1QEj1C96tEZcoa1hSgD2Wojtqbu3"
+				"bzz-raw://ea61a797c8037482e6096dc41d6197074a1f1127d140b0c0165643bbb3e1a98f",
+				"dweb:/ipfs/QmQx9bnVazcaeFjdsmVZj8ZBo1GkZFWyzJoudLoBNxbiHU"
 			]
 		}
 	},
