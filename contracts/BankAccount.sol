@@ -46,7 +46,7 @@ contract BankAccount {
 
     //Associate account id and withdraw ids 
     mapping(uint => Account) accounts;
-    mapping(address => uint[]) userAccount; // store ids of the accounts a user owned
+    mapping(address => uint[]) userAccounts; // store ids of the accounts a user owned
 
     uint nextAccountId;
     uint nextWithdrawId;
@@ -71,6 +71,24 @@ contract BankAccount {
     modifier validOwners(address[] calldata owners)
     {
         // check numbers of owners are valid
+        require(owners.length + 1 <= 4, "maximum of four owners per account");
+        for (uint i; i < owners.length; i++) 
+        {
+            // we are using this second loop to check forword if any of the ele,ments matches 
+            for (uint j = i + 1; j < owners.length; j++)
+            {
+                if(owners[i] == owners[j])
+                {
+                    revert("No duplicate owners");
+                }
+            }
+        }
+        _;
+    }
+
+    modifier sufficientBalance(uint accountId, uint amount)
+    {
+        require(accounts[accountId].balance >= amount, "Insufficient balance in the account");
         _;
     }
     
@@ -89,10 +107,10 @@ contract BankAccount {
     Take in all of the owners, the person who calles this function will be automatically be the owner of the account
     and this is external because this is not suppose to be called inside of the contract
     */
-    function createAccount(address[] calldata otherOwners) external
+    function createAccount(address[] calldata otherOwners) external validOwners(otherOwners)
     {
         // make sure each owner is unique
-        // one owner is creating an array which contains all of the owners, and one of the owners will be the creater himself. SO rthats why +1
+        // one owner is creating an array which contains all of the owners, and one of the owners will be the creater himself. So thats why +1
         address[] memory owners = new address[](otherOwners.length + 1);        
         owners[otherOwners.length] = msg.sender;
 
@@ -109,11 +127,11 @@ contract BankAccount {
             // we are going to go to user accounts, which is gonna contain an array, which specifies all of the accounts this use is owner of
             // we are going to check if they are owner of three max accounts
             // and this is valid to do because unwanted owners will be removed at the beggening we can proceed with valid owners
-            if(userAccount[owners[idx]].length > 2)
+            if(userAccounts[owners[idx]].length > 2)
             {
                 revert("Each user can have a max 3 accounts");
             }
-            userAccount[owners[idx]].push(id);
+            userAccounts[owners[idx]].push(id);
         }
         accounts[id].owners = owners;
         nextAccountId++;
@@ -121,9 +139,17 @@ contract BankAccount {
     }
 
 
-    function requestWithdrawl(uint accountId, uint ammount) external 
+    function requestWithdrawl(uint accountId, uint amount) external accountOwner(accountId) sufficientBalance(accountId, amount)
     {
-
+        uint id = nextWithdrawId;
+        // This is making a reference to the WithdrawRequest struct, that is going to store the id in the mapping withdrawRequests of the account associated with the account id
+        // The location is storage, so that anything is being done on the request object is going to modify whats inside of this mapping "accounts.[accountId].withdrawRequests[id]",
+        // hence it will change what is inside of the account struct
+        WithdrawRequest storage request = accounts[accountId].withdrawRequests[id];
+        request.user = msg.sender;
+        request.amount = amount;
+        nextWithdrawId++;
+        emit WithdrawRequested(msg.sender, accountId, id, amount, block.timestamp);
     }
 
 

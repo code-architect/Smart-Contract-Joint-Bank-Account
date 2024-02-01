@@ -245,7 +245,7 @@
 					},
 					{
 						"internalType": "uint256",
-						"name": "ammount",
+						"name": "amount",
 						"type": "uint256"
 					}
 				],
@@ -301,11 +301,11 @@
 	},
 	"sources": {
 		"contracts/BankAccount.sol": {
-			"keccak256": "0x08fd5d682113ee7e318991f1cfea279b926941b25a96104cac7550c29114c68b",
+			"keccak256": "0x1bdb41999aa82ed611aaea2eb37b24009d3e392bdcb049ebb8bd34587501ab70",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ea61a797c8037482e6096dc41d6197074a1f1127d140b0c0165643bbb3e1a98f",
-				"dweb:/ipfs/QmQx9bnVazcaeFjdsmVZj8ZBo1GkZFWyzJoudLoBNxbiHU"
+				"bzz-raw://1092c5cfcb4d6fa025400e566e0e611c79bd3240a6e13b8e5138062a70b94637",
+				"dweb:/ipfs/QmQu1bvbHwdhD1JfnGw5tuidyGKd4yiPPXB7A6BvR2DiRq"
 			]
 		}
 	},
