@@ -108,7 +108,9 @@ contract BankAccount {
 
     modifier canWithdraw(uint accountId, uint withdrawId)
     {
+        // check if you are the owner
         require(accounts[accountId].withdrawRequests[withdrawId].user == msg.sender, "You did not create this request");
+        require(accounts[accountId].withdrawRequests[withdrawId].approved, "This request is not approved");
         _;
     }
     
@@ -195,7 +197,7 @@ contract BankAccount {
     /*
     This will give you money once the a withdrawl is approved
     */
-    function withdraw(uint accountId, uint withdrawId) external 
+    function withdraw(uint accountId, uint withdrawId) external canWithdraw(accountId, withdrawId)
     {
         // make sure if have sufficient balance, checking here because within the time of the withdrawl request money could have been taken out, 
         //because we can make multiple withdrawl request
@@ -216,7 +218,7 @@ contract BankAccount {
 
     function getBalance(uint accountId) public view returns (uint)
     {
-
+        return accounts[accountId].balance;
     }
 
 
@@ -225,16 +227,16 @@ contract BankAccount {
     */
     function getOwners(uint accountId) public view returns (address[] memory)
     {
-
+        return accounts[accountId].owners;
     }
 
 
     /*
     This will return number of approvals not whose approved
     */
-    function getApprovals(uint accountId, uint withdrawlId) public view returns (uint)
+    function getApprovals(uint accountId, uint withdrawId) public view returns (uint)
     {
-
+        return accounts[accountId].withdrawRequests[withdrawId].approvals;
     }
 
 
@@ -243,7 +245,7 @@ contract BankAccount {
     */
     function getAccount() public view returns (uint[] memory) 
     {
-        
+        return userAccounts[msg.sender];
     }
 
 }

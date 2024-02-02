@@ -183,7 +183,7 @@
 					},
 					{
 						"internalType": "uint256",
-						"name": "withdrawlId",
+						"name": "withdrawId",
 						"type": "uint256"
 					}
 				],
@@ -301,11 +301,11 @@
 	},
 	"sources": {
 		"contracts/BankAccount.sol": {
-			"keccak256": "0x6d973084377361818933d308d07997da2a66baf1875f9ad7cf52c02646d41048",
+			"keccak256": "0xa5d2b6a7a5697761e0ccfc18db05f04fecb3d6ef60e66a658cc65acccde66e4a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://fc771b97c86753a392255e14a013006c279e9976d02e3e8efed8cb2f61204d93",
-				"dweb:/ipfs/QmRW64vhgjUTK6DBviCE5jaMqHyKHorAREzjci1LfdyLcq"
+				"bzz-raw://87986dc5b051c689408dd994bb174b33651febd127ce661b6fadeba69a762e42",
+				"dweb:/ipfs/Qmc1ifoJ5Yqfsbbm5NKBReSD6jxVXqfQxDP7tMWgr97BCj"
 			]
 		}
 	},
