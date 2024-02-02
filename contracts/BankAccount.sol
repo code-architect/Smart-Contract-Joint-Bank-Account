@@ -243,7 +243,7 @@ contract BankAccount {
     /*
     This will return ids of the account that this specific user is owner of
     */
-    function getAccount() public view returns (uint[] memory) 
+    function getAccounts() public view returns (uint[] memory) 
     {
         return userAccounts[msg.sender];
     }
