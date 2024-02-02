@@ -91,8 +91,29 @@ contract BankAccount {
         require(accounts[accountId].balance >= amount, "Insufficient balance in the account");
         _;
     }
+
+    modifier canApprove(uint accountId, uint withdrawId)
+    {
+        // if this request is already approved or not
+        require(!accounts[accountId].withdrawRequests[withdrawId].approved, "This request is already approved");
+        // if the user sending this approval is not the person who made the request then he/she cannot make an approval
+        require(accounts[accountId].withdrawRequests[withdrawId].user != msg.sender, "You cannot approve this request");
+        // if the user is 0 address, that mean we haven created the request yet, because as soon as we create it we will mark the user of the user of the request
+        //as the person made the request
+        require(accounts[accountId].withdrawRequests[withdrawId].user != address(0), "This request does not exists");
+        // check if you have already approved it
+        require(!accounts[accountId].withdrawRequests[withdrawId].ownersApproved[msg.sender], "You have already approved");
+        _;
+    }
+
+    modifier canWithdraw(uint accountId, uint withdrawId)
+    {
+        require(accounts[accountId].withdrawRequests[withdrawId].user == msg.sender, "You did not create this request");
+        _;
+    }
     
-    //=========================================================================================================================
+    //================================================ Modefiers Ends =========================================================
+    //=================================================== Functions ===========================================================
     /*
     User can have multiple accounts, so need to specify account id
     */    
@@ -156,18 +177,40 @@ contract BankAccount {
     /*
     We need to know which withdraw in the account we need to approve, because at a time multiple withdrawl request can exist
     */
-    function approveWithdrawl(uint accountId, uint withdrawlId) external 
+    function approveWithdrawl(uint accountId, uint withdrawId) external accountOwner(accountId) canApprove(accountId, withdrawId)
     {
+        WithdrawRequest storage request = accounts[accountId].withdrawRequests[withdrawId];
+        // incrimenting number of approvals we have
+        request.approvals++;
+        request.ownersApproved[msg.sender] = true;
 
+        // we are checking this because the length of owners -1 because who ever makes the request has already made an aproval, so we are counthing total -1 number of approvals
+        if(request.approvals == accounts[accountId].owners.length - 1)
+        {
+            request.approved = true;
+        }
     }
 
 
     /*
     This will give you money once the a withdrawl is approved
     */
-    function withdraw(uint accountId, uint withdrawlId) external 
+    function withdraw(uint accountId, uint withdrawId) external 
     {
+        // make sure if have sufficient balance, checking here because within the time of the withdrawl request money could have been taken out, 
+        //because we can make multiple withdrawl request
+        uint amount =  accounts[accountId].withdrawRequests[withdrawId].amount;
+        require(accounts[accountId].balance >= amount, "insufficient balance");
 
+        // substract the balance and reset(delete) the withdrawRequests struct, so cannot draw multiple times
+        accounts[accountId].balance -= amount;
+        delete accounts[accountId].withdrawRequests[withdrawId];
+
+        // Pay the person and emit it
+        (bool sent,) = payable(msg.sender).call{value: amount}("");
+        require(sent);
+
+        emit Withdraw(withdrawId, block.timestamp);
     }
 
 

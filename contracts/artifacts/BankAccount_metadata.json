@@ -126,7 +126,7 @@
 					},
 					{
 						"internalType": "uint256",
-						"name": "withdrawlId",
+						"name": "withdrawId",
 						"type": "uint256"
 					}
 				],
@@ -263,7 +263,7 @@
 					},
 					{
 						"internalType": "uint256",
-						"name": "withdrawlId",
+						"name": "withdrawId",
 						"type": "uint256"
 					}
 				],
@@ -301,11 +301,11 @@
 	},
 	"sources": {
 		"contracts/BankAccount.sol": {
-			"keccak256": "0x1bdb41999aa82ed611aaea2eb37b24009d3e392bdcb049ebb8bd34587501ab70",
+			"keccak256": "0x6d973084377361818933d308d07997da2a66baf1875f9ad7cf52c02646d41048",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://1092c5cfcb4d6fa025400e566e0e611c79bd3240a6e13b8e5138062a70b94637",
-				"dweb:/ipfs/QmQu1bvbHwdhD1JfnGw5tuidyGKd4yiPPXB7A6BvR2DiRq"
+				"bzz-raw://fc771b97c86753a392255e14a013006c279e9976d02e3e8efed8cb2f61204d93",
+				"dweb:/ipfs/QmRW64vhgjUTK6DBviCE5jaMqHyKHorAREzjci1LfdyLcq"
 			]
 		}
 	},
