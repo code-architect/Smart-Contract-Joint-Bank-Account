@@ -14,6 +14,26 @@ describe("BankAccount", function () {
     return { bankAccount ,addr0, addr1, addr2, addr3, addr4 };
   }
 
+  async function deployBankAccountWithAccount(owners = 1, deposit = 0, withdrawlAmounts = []) {
+    const { bankAccount ,addr0, addr1, addr2, addr3, addr4 } = await loadFixture(deployBankAccount);
+    const addresses = [];
+    if(owners == 2){ addresses = [addr1.address]; }
+    else if(owners == 3){ addresses = [addr1.address,addr2.address]; }
+    else if(owners == 4){ addresses = [addr1.address, addr2.address, addr3.address]; }
+
+    await bankAccount.connect(addr0).createAccount(addresses);
+    if(deposit > 0)
+    {
+      await bankAccount.connect(addr0).deposit(0, { value:deposit.toString() });
+    }
+
+    for(const withdrawlAmount of withdrawlAmounts){
+      await bankAccount.connect(addr0).requestWithdrawl(0, withdrawlAmount);
+    }
+
+    return { bankAccount ,addr0, addr1, addr2, addr3, addr4 };
+  }
+
   describe("Deployment", () => 
   {
     it("Should deploy wihtout any error", async () => {
@@ -96,6 +116,18 @@ describe("BankAccount", function () {
       }
       await expect(bankAccount.connect(addr0).createAccount([])).to.be.reverted;      
       
+    });
+  });
+
+  describe("Depositing", () => {
+    it("Should allow deposit from account owner", async () => {
+      const {bankAccount, addr0} = await deployBankAccountWithAccount(1);
+      await expect(bankAccount.connect(addr0).deposit(0, {value: "100"})).to.changeEtherBalances([bankAccount, addr0], ["100", "-100"]);
+    });
+
+    it("Should NOT allow deposit from non account owner", async () => {
+      const {bankAccount, addr1} = await deployBankAccountWithAccount(1);
+      await expect(bankAccount.connect(addr1).deposit(0, {value: "100"})).to.be.reverted;
     });
   });
 });
