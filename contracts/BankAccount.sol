@@ -72,8 +72,12 @@ contract BankAccount {
     {
         // check numbers of owners are valid
         require(owners.length + 1 <= 4, "maximum of four owners per account");
+        
         for (uint i; i < owners.length; i++) 
         {
+            if(owners[i] == msg.sender){
+                revert("No duplicate owners");
+            }
             // we are using this second loop to check forword if any of the ele,ments matches 
             for (uint j = i + 1; j < owners.length; j++)
             {
