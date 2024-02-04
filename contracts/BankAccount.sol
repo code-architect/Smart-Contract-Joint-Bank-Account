@@ -56,15 +56,13 @@ contract BankAccount {
     {
         bool isOwner;
         // check if the account id matches with any of the owner of the given account
-        for(uint idx; idx < accounts[accountId].owners.length; idx++)
-        {
-            if(accounts[accountId].owners[idx] == msg.sender)
-            {
+        for (uint idx; idx < accounts[accountId].owners.length; idx++) {
+            if (accounts[accountId].owners[idx] == msg.sender) {
                 isOwner = true;
                 break;
             }
         }
-        require(isOwner, "You are not an owner of this account");
+        require(isOwner, "you are not an owner of this account");
         _;
     }
 
